@@ -136,6 +136,7 @@ class Lda2vec:
     def _build_graph(self):
         """Builds the Lda2vec model graph.
         """
+        tf.compat.v1.disable_eager_execution()
         # Model Inputs
         # Pivot Words
         x = tf.compat.v1.placeholder(tf.int32, shape=[None], name='x_pivot_idxs')
