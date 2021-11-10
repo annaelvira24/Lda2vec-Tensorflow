@@ -175,12 +175,12 @@ class Lda2vec:
         loss_avgs_op = self.moving_avgs.apply([loss_lda, loss_word2vec, loss])
         
         # Init the optimizer
-        with tf.control_dependencies([loss_avgs_op]):
-            optimizer = tf.contrib.layers.optimize_loss(loss,
-                                                        tf.train.get_global_step(),
-                                                        self.learning_rate,
-                                                        'Adam',
-                                                        name='Optimizer')
+#         with tf.control_dependencies([loss_avgs_op]):
+#             optimizer = tf.contrib.layers.optimize_loss(loss,
+#                                                         tf.train.get_global_step(),
+#                                                         self.learning_rate,
+#                                                         'Adam',
+#                                                         name='Optimizer')
         
         # Initialize all variables
         self.sesh.run(tf.global_variables_initializer(), options=tf.RunOptions(report_tensor_allocations_upon_oom=True))
