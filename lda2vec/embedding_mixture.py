@@ -24,9 +24,9 @@ class EmbedMixture:
         self.doc_embedding = tf.Variable(tf.random.normal([n_documents, n_topics], mean=0, stddev=50 * scalar),
                                          name='doc_embedding') if W_in is None else W_in
 
-        self.topic_embedding = tf.Variable('topic_embedding', shape=[n_topics, n_dim],
+        self.topic_embedding = tf.compat.v1.get_variable('topic_embedding', shape=[n_topics, n_dim],
                                                dtype=tf.float32,
-                                               initializer=tf.compat.v1.orthogonal_initializer(gain=scalar)) if factors_in is None else factors_in
+                                               initializer=tf.orthogonal_initializer(gain=scalar)) if factors_in is None else factors_in
 
 
     def __call__(self, doc_ids=None, update_only_docs=False, softmax=True):
