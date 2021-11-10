@@ -1,4 +1,4 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import numpy as np
 import lda2vec.word_embedding as W
 import lda2vec.embedding_mixture as M
@@ -7,6 +7,8 @@ from lda2vec import utils
 from datetime import datetime
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+tf.disable_v2_behavior()
 
 class Lda2vec:
     RESTORE_KEY = 'to_restore'
