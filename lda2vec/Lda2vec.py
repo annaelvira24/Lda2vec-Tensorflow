@@ -1,5 +1,6 @@
 import tensorflow.compat.v1 as tf
-from tensorflow.contrib import layers
+import tf_slim as slim
+
 import numpy as np
 import lda2vec.word_embedding as W
 import lda2vec.embedding_mixture as M
@@ -177,7 +178,7 @@ class Lda2vec:
         
         # Init the optimizer
         with tf.control_dependencies([loss_avgs_op]):
-            optimizer = layers.optimize_loss(loss, tf.train.get_global_step(), self.learning_rate, 'Adam', name='Optimizer')
+            optimizer = slim.optimize_loss(loss, tf.train.get_global_step(), self.learning_rate, 'Adam', name='Optimizer')
 #         optimizer = None
         
         # Initialize all variables
