@@ -138,11 +138,11 @@ class Lda2vec:
         """
         # Model Inputs
         # Pivot Words
-        x = tf.placeholder(tf.int32, shape=[None], name='x_pivot_idxs')
+        x = tf.compat.v1.placeholder(tf.int32, shape=[None], name='x_pivot_idxs')
         # Context/Target Words
-        y = tf.placeholder(tf.int64, shape=[None], name='y_target_idxs')
+        y = tf.compat.v1.placeholder(tf.int64, shape=[None], name='y_target_idxs')
         # Document ID
-        docs = tf.placeholder(tf.int32, shape=[None], name='doc_ids')
+        docs = tf.compat.v1.placeholder(tf.int32, shape=[None], name='doc_ids')
 
         # Global Step
         step = tf.Variable(0, trainable=False, name='global_step')
@@ -155,14 +155,14 @@ class Lda2vec:
 
         # Compile word + doc context in list and add them together
         contexts_to_add=[word_context, doc_context]
-        context = tf.add_n(contexts_to_add, name='context_vector')
+        context = tf.compat.v1.add_n(contexts_to_add, name='context_vector')
 
         # Compute Word2Vec Loss
-        with tf.name_scope('nce_loss'):
+        with tf.compat.v1.name_scope('nce_loss'):
             loss_word2vec = self.w_embed(context, y)
             tf.summary.scalar('nce_loss', loss_word2vec)
         # Compute LDA Loss
-        with tf.name_scope('lda_loss'):
+        with tf.compat.v1.name_scope('lda_loss'):
             fraction = tf.Variable(1, trainable=False, dtype=tf.float32, name='fraction')
             loss_lda = self.lmbda * fraction * self.prior()
             tf.summary.scalar('lda_loss', loss_lda)
@@ -173,7 +173,7 @@ class Lda2vec:
         loss_avgs_op = self.moving_avgs.apply([loss_lda, loss_word2vec, loss])
         
         # Init the optimizer
-        with tf.control_dependencies([loss_avgs_op]):
+        with tf.compat.v1.control_dependencies([loss_avgs_op]):
             optimizer = tf.contrib.layers.optimize_loss(loss,
                                                         tf.train.get_global_step(),
                                                         self.learning_rate,
@@ -181,7 +181,7 @@ class Lda2vec:
                                                         name='Optimizer')
         
         # Initialize all variables
-        self.sesh.run(tf.global_variables_initializer(), options=tf.RunOptions(report_tensor_allocations_upon_oom=True))
+        self.sesh.run(tf.compat.v1.global_variables_initializer(), options=tf.RunOptions(report_tensor_allocations_upon_oom=True))
         
         # Create a merged summary of variables
         merged = tf.summary.merge_all()
