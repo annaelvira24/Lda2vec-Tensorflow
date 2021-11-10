@@ -1,4 +1,5 @@
 import tensorflow.compat.v1 as tf
+from tensorflow.contrib import layers
 import numpy as np
 import lda2vec.word_embedding as W
 import lda2vec.embedding_mixture as M
@@ -175,13 +176,9 @@ class Lda2vec:
         loss_avgs_op = self.moving_avgs.apply([loss_lda, loss_word2vec, loss])
         
         # Init the optimizer
-#         with tf.control_dependencies([loss_avgs_op]):
-#             optimizer = tf.contrib.layers.optimize_loss(loss,
-#                                                         tf.train.get_global_step(),
-#                                                         self.learning_rate,
-#                                                         'Adam',
-#                                                         name='Optimizer')
-        optimizer = None
+        with tf.control_dependencies([loss_avgs_op]):
+            optimizer = layers.optimize_loss(loss, tf.train.get_global_step(), self.learning_rate, 'Adam', name='Optimizer')
+#         optimizer = None
         
         # Initialize all variables
         self.sesh.run(tf.global_variables_initializer(), options=tf.RunOptions(report_tensor_allocations_upon_oom=True))
