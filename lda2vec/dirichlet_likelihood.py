@@ -1,4 +1,5 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 def dirichlet_likelihood(weights, alpha=None):
     n_topics = weights.get_shape()[1].value
