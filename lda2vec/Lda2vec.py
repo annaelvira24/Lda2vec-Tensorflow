@@ -181,6 +181,7 @@ class Lda2vec:
 #                                                         self.learning_rate,
 #                                                         'Adam',
 #                                                         name='Optimizer')
+        optimizer = None
         
         # Initialize all variables
         self.sesh.run(tf.global_variables_initializer(), options=tf.RunOptions(report_tensor_allocations_upon_oom=True))
