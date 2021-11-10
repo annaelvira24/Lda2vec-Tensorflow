@@ -1,5 +1,5 @@
-import tensorflow as tf
-
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 class Word_Embedding():
     def __init__(self, embedding_size, vocab_size, sample_size, power=1.,
