@@ -73,7 +73,7 @@ class Lda2vec:
                 if fixed_words:
                     W_in = tf.constant(pretrained_embeddings, name="word_embedding")
                 else:
-                    with tf.variable_scope("word_embedding_scope", reuse=tf.AUTO_REUSE):
+                    with tf.variable_scope("word_embedding_scope", reuse=tf.AUTO_REUSE) as scope:
                         W_in = tf.get_variable("word_embedding", shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
             else:
                 W_in = None
