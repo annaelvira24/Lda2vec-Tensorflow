@@ -2,15 +2,19 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
 class Word_Embedding():
-    def __init__(self, embedding_size, vocab_size, sample_size, power=1.,
+    def __init__(self, embedding_size, vocab_size, sample_size, word_embedding_name, power=1.,
                  freqs=None, W_in=None, nce_w_in=None, nce_b_in=None):
         self.vocab_size = vocab_size
         self.sample_size = sample_size
+        self.word_embedding_name = word_embedding_name
         self.power = power
         self.freqs = freqs
 
-        self.embedding = tf.Variable(tf.random_uniform([vocab_size, embedding_size],-1.0, 1.0),
-                           name="word_embedding") if W_in is None else W_in
+#         self.embedding = tf.Variable(tf.random_uniform([vocab_size, embedding_size],-1.0, 1.0),
+#                            name="word_embedding") if W_in is None else W_in
+
+          self.embedding = tf.Variable(tf.random_uniform([vocab_size, embedding_size],-1.0, 1.0),
+                           name=word_embedding_name) if W_in is None else W_in
 
         # Construct nce loss for word embeddings
         self.nce_weights = tf.Variable(tf.truncated_normal([vocab_size, embedding_size],
