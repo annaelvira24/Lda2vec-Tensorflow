@@ -15,7 +15,7 @@ tf.disable_v2_behavior()
 class Lda2vec:
     RESTORE_KEY = 'to_restore'
 
-    def __init__(self, num_unique_documents, vocab_size, num_topics, freqs=None, 
+    def __init__(self, num_unique_documents, vocab_size, num_topics, word_embedding_name, freqs=None, 
                  save_graph_def=True, embedding_size=128, num_sampled=40,
                  learning_rate=0.001, lmbda=200.0, alpha=None, power=0.75, batch_size=500, logdir='logdir',
                  restore=False, fixed_words=False, factors_in=None, pretrained_embeddings=None):
@@ -48,6 +48,7 @@ class Lda2vec:
         self.num_unique_documents = num_unique_documents
         self.vocab_size = vocab_size
         self.num_topics = num_topics
+        self.word_embedding_name = word_embedding_name
         self.freqs = freqs
         self.save_graph_def = save_graph_def
         self.logdir = logdir
@@ -71,10 +72,12 @@ class Lda2vec:
             # Load pretrained embeddings if provided.
             if isinstance(pretrained_embeddings, np.ndarray):
                 if fixed_words:
-                    W_in = tf.constant(pretrained_embeddings, name="word_embedding")
+                    # W_in = tf.constant(pretrained_embeddings, name="word_embedding")
+                    W_in = tf.constant(pretrained_embeddings, name=self.word_embedding_name)
                 else:
                     with tf.variable_scope("word_embedding_scope", reuse=tf.AUTO_REUSE) as scope:
-                        W_in = tf.get_variable("word_embedding", shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
+                        # W_in = tf.get_variable("word_embedding", shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
+                        W_in = tf.get_variable(self.word_embedding_name, shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
             else:
                 W_in = None
 
