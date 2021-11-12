@@ -15,7 +15,7 @@ tf.disable_v2_behavior()
 class Lda2vec:
     RESTORE_KEY = 'to_restore'
 
-    def __init__(self, num_unique_documents, vocab_size, num_topics, word_embedding_name, freqs=None, 
+    def __init__(self, num_unique_documents, vocab_size, num_topics, word_embedding_name, topic_embedding_name, freqs=None, 
                  save_graph_def=True, embedding_size=128, num_sampled=40,
                  learning_rate=0.001, lmbda=200.0, alpha=None, power=0.75, batch_size=500, logdir='logdir',
                  restore=False, fixed_words=False, factors_in=None, pretrained_embeddings=None):
@@ -49,6 +49,7 @@ class Lda2vec:
         self.vocab_size = vocab_size
         self.num_topics = num_topics
         self.word_embedding_name = word_embedding_name
+        self.topic_embedding_name = topic_embedding_name
         self.freqs = freqs
         self.save_graph_def = save_graph_def
         self.logdir = logdir
@@ -84,7 +85,7 @@ class Lda2vec:
             # Initialize the word embedding
             self.w_embed = W.Word_Embedding(self.embedding_size, self.vocab_size, self.num_sampled, word_embedding_name=self.word_embedding_name, W_in=W_in, freqs=self.freqs, power=self.power)
             # Initialize the Topic-Document Mixture
-            self.mixture = M.EmbedMixture(self.num_unique_documents, self.num_topics, self.embedding_size)
+            self.mixture = M.EmbedMixture(self.num_unique_documents, self.num_topics, self.embedding_size, topic_embedding_name=self.topic_embedding_name)
 
 
             # Builds the graph and returns variables within it
@@ -129,6 +130,7 @@ class Lda2vec:
             self.mixture = M.EmbedMixture(self.num_unique_documents,
                                           self.num_topics,
                                           self.embedding_size,
+                                          topic_embedding_name=self.topic_embedding_name,
                                           W_in=doc_embedding,
                                           factors_in=topic_embedding)
 
