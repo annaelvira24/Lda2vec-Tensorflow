@@ -82,9 +82,7 @@ class Lda2vec:
                 W_in = None
 
             # Initialize the word embedding
-            self.w_embed = W.Word_Embedding(self.embedding_size, self.vocab_size, self.num_sampled, self.word_embedding_name,
-                                            W_in=W_in, freqs=self.freqs,
-                                            power=self.power)
+            self.w_embed = W.Word_Embedding(self.embedding_size, self.vocab_size, self.num_sampled, word_embedding_name=self.word_embedding_name, W_in=W_in, freqs=self.freqs, power=self.power)
             # Initialize the Topic-Document Mixture
             self.mixture = M.EmbedMixture(self.num_unique_documents, self.num_topics, self.embedding_size)
 
