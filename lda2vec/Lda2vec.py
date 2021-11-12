@@ -82,7 +82,7 @@ class Lda2vec:
                 W_in = None
 
             # Initialize the word embedding
-            self.w_embed = W.Word_Embedding(self.embedding_size, self.vocab_size, self.num_sampled,
+            self.w_embed = W.Word_Embedding(self.embedding_size, self.vocab_size, self.num_sampled, self.word_embedding_name,
                                             W_in=W_in, freqs=self.freqs,
                                             power=self.power)
             # Initialize the Topic-Document Mixture
@@ -121,7 +121,7 @@ class Lda2vec:
             self.optimizer, self.merged, embedding, nce_weights, nce_biases,
             doc_embedding, topic_embedding) = handles
 
-            self.w_embed = W.Word_Embedding(self.embedding_size, self.vocab_size, self.num_sampled,
+            self.w_embed = W.Word_Embedding(self.embedding_size, self.vocab_size, self.num_sampled, self.word_embedding_name,
                                             W_in=embedding, freqs=self.freqs,
                                             power=self.power,
                                             nce_w_in=nce_weights,
