@@ -70,7 +70,11 @@ class Lda2vec:
 
             # Load pretrained embeddings if provided.
             if isinstance(pretrained_embeddings, np.ndarray):
-                W_in = tf.constant(pretrained_embeddings, name="word_embedding") if fixed_words else tf.get_variable("word_embedding", shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
+                if fixed_words:
+                    W_in = tf.constant(pretrained_embeddings, name="word_embedding")
+                else:
+                    with tf.variable_scope("word_embedding_scope", reuse=True):
+                        W_in = tf.get_variable("word_embedding", shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
             else:
                 W_in = None
 
