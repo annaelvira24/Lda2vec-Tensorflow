@@ -13,7 +13,7 @@ class Word_Embedding():
 #         self.embedding = tf.Variable(tf.random_uniform([vocab_size, embedding_size],-1.0, 1.0),
 #                            name="word_embedding") if W_in is None else W_in
 
-          self.embedding = tf.Variable(tf.random_uniform([vocab_size, embedding_size],-1.0, 1.0),
+        self.embedding = tf.Variable(tf.random_uniform([vocab_size, embedding_size],-1.0, 1.0),
                            name=word_embedding_name) if W_in is None else W_in
 
         # Construct nce loss for word embeddings
