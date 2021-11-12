@@ -65,6 +65,8 @@ class Lda2vec:
 
 
         if not restore:
+            tf.reset_default_graph()
+
             self.date = datetime.now().strftime('%y%m%d_%H%M')
             self.logdir = ('{}_{}').format(self.logdir, self.date)
 
