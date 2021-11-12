@@ -16,16 +16,21 @@ def _orthogonal_matrix(shape):
 
 class EmbedMixture:
 
-    def __init__(self, n_documents, n_topics, n_dim, temperature=1.0, W_in=None, factors_in=None, name=''):
+    def __init__(self, n_documents, n_topics, n_dim, topic_embedding_name, temperature=1.0, W_in=None, factors_in=None, name=''):
         self.n_documents = n_documents
         self.temperature = temperature
         self.name = name
+        self.topic_embedding_name = topic_embedding_name
         scalar = 1 / np.sqrt(n_documents + n_topics)
         
         self.doc_embedding = tf.Variable(tf.random_normal([n_documents, n_topics], mean=0, stddev=50 * scalar),
                                          name='doc_embedding') if W_in is None else W_in
 
-        self.topic_embedding = tf.get_variable('topic_embedding', shape=[n_topics, n_dim],
+#         self.topic_embedding = tf.get_variable('topic_embedding', shape=[n_topics, n_dim],
+#                                                dtype=tf.float32,
+#                                                initializer=tf.orthogonal_initializer(gain=scalar)) if factors_in is None else factors_in
+
+        self.topic_embedding = tf.get_variable(self.topic_embedding_name, shape=[n_topics, n_dim],
                                                dtype=tf.float32,
                                                initializer=tf.orthogonal_initializer(gain=scalar)) if factors_in is None else factors_in
 
