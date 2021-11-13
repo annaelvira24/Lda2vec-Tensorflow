@@ -65,7 +65,7 @@ class Lda2vec:
         self.compute_normed = False
         self.fixed_words = fixed_words
 
-
+        tf.reset_default_graph()
         if not restore:
             self.date = datetime.now().strftime('%y%m%d_%H%M')
             self.logdir = ('{}_{}').format(self.logdir, self.date)
