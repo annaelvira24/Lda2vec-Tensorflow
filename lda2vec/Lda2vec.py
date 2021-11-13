@@ -15,7 +15,7 @@ tf.disable_v2_behavior()
 class Lda2vec:
     RESTORE_KEY = 'to_restore'
 
-    def __init__(self, num_unique_documents, vocab_size, num_topics, word_embedding_name, topic_embedding_name, freqs=None, 
+    def __init__(self, num_unique_documents, vocab_size, num_topics, word_embedding_name, topic_embedding_name, optimizer_name, freqs=None, 
                  save_graph_def=True, embedding_size=128, num_sampled=40,
                  learning_rate=0.001, lmbda=200.0, alpha=None, power=0.75, batch_size=500, logdir='logdir',
                  restore=False, fixed_words=False, factors_in=None, pretrained_embeddings=None):
