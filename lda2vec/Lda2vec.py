@@ -50,6 +50,7 @@ class Lda2vec:
         self.num_topics = num_topics
         self.word_embedding_name = word_embedding_name
         self.topic_embedding_name = topic_embedding_name
+        self.optimizer_name = optimizer_name
         self.freqs = freqs
         self.save_graph_def = save_graph_def
         self.logdir = logdir
@@ -65,7 +66,6 @@ class Lda2vec:
         self.compute_normed = False
         self.fixed_words = fixed_words
 
-        tf.reset_default_graph()
         if not restore:
             self.date = datetime.now().strftime('%y%m%d_%H%M')
             self.logdir = ('{}_{}').format(self.logdir, self.date)
@@ -76,9 +76,9 @@ class Lda2vec:
                     # W_in = tf.constant(pretrained_embeddings, name="word_embedding")
                     W_in = tf.constant(pretrained_embeddings, name=self.word_embedding_name)
                 else:
-                    with tf.variable_scope("word_embedding_scope", reuse=tf.AUTO_REUSE) as scope:
+#                     with tf.variable_scope("word_embedding_scope", reuse=tf.AUTO_REUSE) as scope:
                         # W_in = tf.get_variable("word_embedding", shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
-                        W_in = tf.get_variable(self.word_embedding_name, shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
+                    W_in = tf.get_variable(self.word_embedding_name, shape=[self.vocab_size,self.embedding_size], initializer=tf.constant_initializer(pretrained_embeddings))
             else:
                 W_in = None
 
@@ -185,7 +185,7 @@ class Lda2vec:
         
         # Init the optimizer
         with tf.control_dependencies([loss_avgs_op]):
-            optimizer = slim.optimize_loss(loss, tf.train.get_global_step(), self.learning_rate, 'Adam', name='Optimizer')
+            optimizer = slim.optimize_loss(loss, tf.train.get_global_step(), self.learning_rate, 'Adam', name=self.optimizer_name)
 #         optimizer = None
         
         # Initialize all variables
