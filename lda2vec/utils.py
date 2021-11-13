@@ -119,8 +119,8 @@ def load_preprocessed_data(data_path, load_embed_matrix=False, shuffle_data=True
     if load_embed_matrix:
         embed_matrix = np.load(data_path + "/" + "embedding_matrix.npy")
 
-    df = pd.read_csv(data_path + "/skipgrams.txt", sep="\t", header=None)
-    df = pd.read_csv(data_path + "/skipgrams.txt", header=None, delim_whitespace=True)
+#     df = pd.read_csv(data_path + "/skipgrams.txt", sep="\t", header=None)
+    df = pd.read_csv(data_path + "/skipgrams.txt", sep="\t", header=None, encoding="utf8")
 
     # Extract data arrays from dataframe
     pivot_ids = df[0].values
